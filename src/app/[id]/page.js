@@ -3,7 +3,18 @@ import { revalidateTag } from 'next/cache';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
-export async function Messenger( {params} ) {
+export async function generateStaticParams() {
+  // اینجا باید پارامترهای استاتیک خود را برگردانید
+  return [
+    { id: '1' },
+    { id: '2' },
+    { id: '3' },
+  ];
+}
+export default function Messenger( {params} ) {
+
+  
+
   const [userId , setUserId] = useState(params.id);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
