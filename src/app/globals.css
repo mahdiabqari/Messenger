@@ -2,24 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'Vazir';
-  src: url('/path/to/vazir.ttf') format('truetype');
-}
-
-@font-face {
-  font-family: 'Comic Sans';
-  src: url('https://fonts.googleapis.com/css2?family=Comic+Sans+MS&display=swap');
-}
-
-.font-vazir {
-  font-family: 'Vazir', sans-serif;
-}
-
-.font-comic-sans {
-  font-family: 'Comic Sans', sans-serif;
-}
-
 body {
   font-family: 'vazir',
 }
