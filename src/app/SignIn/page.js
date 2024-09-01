@@ -17,7 +17,7 @@ export default function Home() {
     const newuser = { name, email, password }; 
   
     try { 
-      const response = await fetch('http://localhost:5000/users/register', {  
+      const response = await fetch('https://my-db-p.liara.run/users/register', {  
         method: 'POST', 
         body: JSON.stringify(newuser), 
         headers: { 

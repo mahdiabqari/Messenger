@@ -1,5 +1,6 @@
 'use client'
 import { revalidateTag } from 'next/cache';
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
 export default function Messenger( {params} ) {
@@ -13,16 +14,14 @@ export default function Messenger( {params} ) {
   const [ selectShow , setSelectShow ] = useState(false)
   const [suggest, setSuggest] = useState([]);
   const [showres , setShowres] = useState(false)
-  
+  const [showMeno , setShowMeno] = useState(false)
 
     //Messages
     useEffect(() => {
       const fetchMessage = async () => {
         
-        console.log(`Fetching messages for userId: ${userId} and selectedUser: ${selectedUser}`);
-        
         try {
-          const response = await fetch(`http://localhost:5000/messages/${userId}/${selectedUser}`, {
+          const response = await fetch(`https://my-db-p.liara.run/messages/${userId}/${selectedUser}`, {
             'cache': 'no-cache',
             next: {
               tags: ['messages']
@@ -40,9 +39,11 @@ export default function Messenger( {params} ) {
         }
       };
       
-      const intervalId = setInterval(fetchMessage, 50);
+
+      const intervalId = setInterval(fetchMessage, 500);
 
       return () => clearInterval(intervalId);
+
 
     }, [selectedUser]);
 
@@ -52,7 +53,7 @@ export default function Messenger( {params} ) {
     useEffect(() => {
       const fetchContacts = async () => {
         try {
-          const response = await fetch(`http://localhost:5000/users/friends/${userId}`);
+          const response = await fetch(`https://my-db-p.liara.run/users/friends/${userId}`);
           const data = await response.json();
           setUsers(data);
         } catch (error) {
@@ -68,7 +69,7 @@ export default function Messenger( {params} ) {
     //Search Users
     const handleSearchUsers = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/users/search?name=${searchTerm}`);
+        const response = await fetch(`https://my-db-p.liara.run/users/search?name=${searchTerm}`);
         const data = await response.json();
         setSuggest(data);
       } catch (error) {
@@ -92,9 +93,9 @@ export default function Messenger( {params} ) {
     //Send Messages
     const handleSendMessage = async (e) => {
       e.preventDefault();
-      console.log('Sending message with userId:', userId, 'and selectedUser:', selectedUser);
+
       try {
-        const response = await fetch(`http://localhost:5000/messages/send`, {
+        const response = await fetch(`https://my-db-p.liara.run/messages/send`, {
           method: 'POST',
           body: JSON.stringify({
             sender_id: userId,
@@ -105,6 +106,7 @@ export default function Messenger( {params} ) {
             'Content-Type': 'application/json'
           }
         });
+
         setNewMessage('')
     
         if (!response.ok) {
@@ -175,6 +177,15 @@ export default function Messenger( {params} ) {
               </div>
             </div>
           ))}
+          
+
+            <div className='text-white text-xl fixed bottom-4 left-[6rem]'>
+              <Link href="https://mahdiabqari.liara.run">
+                <h1 className='me-me text-center bg-black px-8 py-2 rounded-xl  '>Created By M.N.S</h1>
+              </Link>
+              <p className='text-center text-sm mt-1'>Demo version</p>
+            </div>
+
 
         </div>
 
@@ -185,16 +196,21 @@ export default function Messenger( {params} ) {
             {selectShow && <div className="messages overflow-y-scroll gap-3 flex flex-col px-5 pb-12 pt-20 w-[95%] h-[41.5rem] mx-auto relative top-4 rounded-xl">
             {messages.map((msg, index) => (
               <div className={`message relative ${msg.sender_id === userId ? 'send-message' : 'receive-message'}`} key={index}>
-                <h1 dir='rtl' className={msg.sender_id === userId ? 'send-m' : 'receive-m'} style={{ display: 'inline-block', position: 'relative' }}>
+                
+                <h1 dir='rtl' className={msg.sender_id === userId ? 'send-m flex' : 'receive-m'} style={{ display: 'inline-block', position: 'relative' }}>
                   {msg.message}
                 </h1>
               </div>
             ))}
 
+            
+            {!messages[0] &&
+              <>
+                <h1 className='text-white text-[20px] text-center mt-40'>There is no message yet</h1>
+                <div class="loader mx-auto mt-20"></div>
+              </>
+            }
 
-
-              
-            {!messages[0] && <h1 className='text-white text-[20px] text-center mt-40'>There is no message yet</h1>}
             </div>}
             {selectShow &&  <div className="sendM rounded-t-[40px] gap-2 container px-4 py-5 absolute bottom-0 w-full">
               <input
@@ -257,6 +273,13 @@ export default function Messenger( {params} ) {
             </div>
           ))}
 
+          <div className='text-white text-xl fixed bottom-4 left-[6rem] right-[6rem]'>
+            <Link href="https://mahdiabqari.liara.run">
+              <h1 className='me-me text-center bg-black px-8 py-2 rounded-xl  '>Created By M.N.S</h1>
+            </Link>
+            <p className='text-center text-sm mt-1'>Demo version</p>
+          </div>
+
          </div>
         }
 
@@ -271,8 +294,14 @@ export default function Messenger( {params} ) {
                   <h1 dir='rtl' className={msg.sender_id === userId ? 'send-m md:text-[18px]' : 'receive-m md:text-[18px]'}>{msg.message}</h1>
                 </div>
               ))}
-            {!messages[0] && <h1 className='text-white text-[18px] text-center mt-40'>There is no message yet</h1>}
+            {!messages[0] && 
+              <>
+                <h1 className='text-white text-[18px] text-center mt-40'>There is no message yet</h1>
+                <div class="loader mx-auto mt-10"></div>
+              </> 
+            }
             </div>}
+
             {selectShow &&  <div className="sendM rounded-t-[40px] gap-2 container px-4 py-5 fixed bottom-0 w-full">
               <input
                 type="text"
@@ -288,6 +317,7 @@ export default function Messenger( {params} ) {
             </div>}
 
             {!selectShow && <h1 className='text-gray-400 text-xl mx-auto text-center mt-[20rem]'>No user Selected</h1>}
+        
         </div>}
 
       </div>
