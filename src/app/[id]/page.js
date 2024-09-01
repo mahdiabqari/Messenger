@@ -3,7 +3,7 @@ import { revalidateTag } from 'next/cache';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
-export default function Messenger( {params} ) {
+export async function Messenger( {params} ) {
   const [userId , setUserId] = useState(params.id);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
