@@ -10,12 +10,8 @@ export const metadata = {
 };
 
 const vazir = localFont({
-  src: 'vazir.ttf'
+  src: 'Vazir.ttf'
 })
-const comic = localFont({
-  src: 'comic.ttf'
-})
-
 
 export default function RootLayout({ children }) {
   return (
