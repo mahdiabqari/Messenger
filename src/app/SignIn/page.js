@@ -20,7 +20,7 @@ export default function Home() {
       const response = await fetch('https://my-db-p.liara.run/users/register', {  
         method: 'POST', 
         body: JSON.stringify(newuser), 
-        headers: { 
+        headers: {
           'Content-Type': 'application/json' 
         } 
       }); 
@@ -30,7 +30,7 @@ export default function Home() {
         const userId = data.id; // فرض می‌کنیم که آیدی کاربر در فیلد `id` قرار دارد 
         const token = response.headers.get('Auth'); // دریافت توکن از هدر پاسخ
         localStorage.setItem('token', token); // ذخیره توکن در localStorage
-        router.push(`/${userId}`); 
+        router.push(`/messenger/${userId}`); 
       } else { 
         const errorMessage = await response.text(); 
         alert(errorMessage); 

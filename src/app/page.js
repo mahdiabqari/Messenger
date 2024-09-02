@@ -27,7 +27,7 @@ export default function Home() {
         const userId = data.id; // فرض می‌کنیم که آیدی کاربر در فیلد `id` قرار دارد
         const token = response.headers.get('Authorization'); // دریافت توکن از هدر پاسخ
         localStorage.setItem('token', token); // ذخیره توکن در localStorage
-        router.push(`/${userId}`);
+        router.push(`/messenger/${userId}`);
       } else {
         const errorMessage = await response.text();
         alert(errorMessage);
