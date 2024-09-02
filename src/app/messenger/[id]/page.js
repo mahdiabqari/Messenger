@@ -3,11 +3,11 @@ import { revalidateTag } from 'next/cache';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
-export default function Messenger( {params} ) {
 
-  
 
-  const [userId , setUserId] = useState(params.id);
+export default function Messenger() {
+
+  const [userId , setUserId] = useState();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [users, setUsers] = useState([]);
@@ -18,6 +18,20 @@ export default function Messenger( {params} ) {
   const [suggest, setSuggest] = useState([]);
   const [showres , setShowres] = useState(false)
   const [showMeno , setShowMeno] = useState(false)
+
+
+  useEffect(() => {
+    const url = window.location.href;
+    const id = url.substring(url.lastIndexOf('/') + 1);
+    setUserId(id);
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      alert(userId);
+    }
+  }, [userId]);
+
 
     //Messages
     useEffect(() => {
@@ -278,7 +292,7 @@ export default function Messenger( {params} ) {
 
           <div className='text-white text-xl fixed bottom-4 left-[6rem] right-[6rem]'>
             <Link href="https://mahdiabqari.liara.run">
-              <h1 className='me-me text-center bg-black px-8 py-2 rounded-xl  '>Created By M.N.S</h1>
+              <h1 className='me-me text-center bg-black px-4 py-2 rounded-xl md:text-[16px]'>Created By M.N.S</h1>
             </Link>
             <p className='text-center text-sm mt-1'>Demo version</p>
           </div>
