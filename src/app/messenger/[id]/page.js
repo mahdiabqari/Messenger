@@ -7,7 +7,8 @@ import React, { useState, useEffect } from 'react';
 
 export default function Messenger() {
 
-  const [userId , setUserId] = useState();
+  const [userId, setUserId] = useState();
+
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [users, setUsers] = useState([]);
@@ -17,8 +18,6 @@ export default function Messenger() {
   const [ selectShow , setSelectShow ] = useState(false)
   const [suggest, setSuggest] = useState([]);
   const [showres , setShowres] = useState(false)
-  const [showMeno , setShowMeno] = useState(false)
-
 
   useEffect(() => {
     const url = window.location.href;
@@ -28,7 +27,7 @@ export default function Messenger() {
 
   useEffect(() => {
     if (userId) {
-      alert(userId);
+      console.log(userId)
     }
   }, [userId]);
 
@@ -63,8 +62,6 @@ export default function Messenger() {
 
 
     }, [selectedUser]);
-
-
 
     //Friends Account
     useEffect(() => {
